@@ -1,4 +1,4 @@
-console.log('Akwadra Super Builder Initialized - Neon Squad Royale');
+console.log('Akwadra Super Builder Initialized - Free Fire Booyah Squad');
 
 const routes = {
     '/': 'home',
@@ -11,17 +11,18 @@ const routes = {
 };
 
 const weapons = [
-    { name: 'Nova AR', icon: '🔫', type: 'رشاش متوازن', damage: 18, fireRate: 210, speed: 8, range: 88, glow: 'rgba(40,247,255,.22)' },
-    { name: 'Ember SG', icon: '💥', type: 'شوتغن قريب', damage: 38, fireRate: 430, speed: 7, range: 48, glow: 'rgba(255,122,24,.24)' },
-    { name: 'Falcon DMR', icon: '🎯', type: 'قناص سريع', damage: 30, fireRate: 520, speed: 11, range: 100, glow: 'rgba(183,255,60,.2)' },
-    { name: 'Pulse SMG', icon: '⚡', type: 'رشاش فائق', damage: 13, fireRate: 120, speed: 9, range: 62, glow: 'rgba(124,60,255,.24)' }
+    { name: 'MP40', icon: '⚡', type: 'اندفاع قريب', damage: 13, fireRate: 105, speed: 9, range: 58, glow: 'rgba(255,122,24,.24)' },
+    { name: 'M4A1', icon: '🔫', type: 'رشاش متوازن', damage: 18, fireRate: 210, speed: 8, range: 86, glow: 'rgba(40,247,255,.22)' },
+    { name: 'M1887', icon: '💥', type: 'شوتغن حاسم', damage: 42, fireRate: 470, speed: 7, range: 44, glow: 'rgba(255,122,24,.24)' },
+    { name: 'AWM', icon: '🎯', type: 'قنص بعيد', damage: 36, fireRate: 560, speed: 12, range: 100, glow: 'rgba(183,255,60,.2)' },
+    { name: 'UMP', icon: '🔥', type: 'رشاش سريع', damage: 15, fireRate: 150, speed: 9, range: 66, glow: 'rgba(124,60,255,.24)' }
 ];
 
 const rankingSeed = [
-    ['صقر جدة', 'أسطوري', 9820, 42, 488], ['ظل الرياض', 'أسطوري', 9410, 39, 502], ['برق الدمام', 'ماسي', 8720, 34, 420],
-    ['نمر تبوك', 'ماسي', 8510, 32, 395], ['ليث المدينة', 'ماسي', 8290, 30, 377], ['قناص أبها', 'ذهبي', 7620, 26, 338],
-    ['شهاب مكة', 'ذهبي', 7440, 25, 301], ['رعد القصيم', 'ذهبي', 7110, 22, 286], ['فهد حائل', 'ماسي', 8060, 29, 360],
-    ['عنقاء الشرقية', 'أسطوري', 9100, 36, 451], ['سهم نجران', 'ذهبي', 6900, 20, 270], ['نجم الجوف', 'ماسي', 7980, 28, 344]
+    ['بويا جدة', 'جراند ماستر', 9820, 42, 488], ['شبح برمودا', 'جراند ماستر', 9410, 39, 502], ['MP40 الدمام', 'هيرويك', 8720, 34, 420],
+    ['نمر البيك', 'هيرويك', 8510, 32, 395], ['ليث المصنع', 'هيرويك', 8290, 30, 377], ['قناص أبها', 'دايموند', 7620, 26, 338],
+    ['شهاب كيب تاون', 'دايموند', 7440, 25, 301], ['رعد البيك فاير', 'دايموند', 7110, 22, 286], ['فهد المطحنة', 'هيرويك', 8060, 29, 360],
+    ['عنقاء بويا', 'جراند ماستر', 9100, 36, 451], ['سهم الجلو', 'دايموند', 6900, 20, 270], ['نجم برمودا', 'هيرويك', 7980, 28, 344]
 ].map(([name, tier, points, wins, kills], index) => ({ id: index + 1, name, tier, points, wins, kills }));
 
 const app = {
@@ -137,7 +138,14 @@ function renderRanking() {
             <td class="p-4">${player.points.toLocaleString('ar-SA')}</td>
             <td class="p-4">${player.wins}</td>
             <td class="p-4">${player.kills}</td>
-            <td class="p-4"><button class="rounded-xl border border-neon/25 bg-neon/10 px-3 py-2 text-neon transition hover:bg-neon/20 focus:outline-none focus:ring-2 focus:ring-neon">عرض</button></td>
+            <td class="p-4">
+                <div class="flex flex-wrap gap-2">
+                    <button class="rounded-xl border border-neon/25 bg-neon/10 px-3 py-2 text-neon transition hover:bg-neon/20 focus:outline-none focus:ring-2 focus:ring-neon">عرض</button>
+                    <button class="rounded-xl border border-acid/25 bg-acid/10 px-3 py-2 text-acid transition hover:bg-acid/20 focus:outline-none focus:ring-2 focus:ring-acid">إضافة</button>
+                    <button class="rounded-xl border border-ember/25 bg-ember/10 px-3 py-2 text-amber-100 transition hover:bg-ember/20 focus:outline-none focus:ring-2 focus:ring-ember">تعديل</button>
+                    <button class="rounded-xl border border-red-400/25 bg-red-400/10 px-3 py-2 text-red-200 transition hover:bg-red-400/20 focus:outline-none focus:ring-2 focus:ring-red-300">حذف</button>
+                </div>
+            </td>
         </tr>
     `).join('') || `<tr><td class="p-6 text-center text-white/50" colspan="7">لا توجد نتائج</td></tr>`;
     document.getElementById('rankPageInfo').textContent = `صفحة ${app.rankPage} من ${pages} — ${rows.length} لاعب`;
@@ -164,17 +172,20 @@ class RoyaleGame {
         this.lastTime = 0;
         this.lastShot = 0;
         this.touchFire = false;
+        this.glooWalls = [];
+        this.lastGlooWall = 0;
         this.reset();
         this.bindEvents();
         requestAnimationFrame(time => this.loop(time));
     }
 
     reset() {
-        this.player = { x: 480, y: 310, r: 15, hp: 100, armor: 0, speed: 245, kills: 0 };
+        this.player = { x: 480, y: 310, r: 15, hp: 100, armor: 0, speed: 245, kills: 0, gloo: 1 };
         this.bullets = [];
         this.particles = [];
+        this.glooWalls = [];
         this.zone = { x: 480, y: 310, r: 285, min: 96, shrink: .018 };
-        this.bots = Array.from({ length: 23 }, (_, i) => this.makeBot(i));
+        this.bots = Array.from({ length: 49 }, (_, i) => this.makeBot(i));
         this.loot = Array.from({ length: 16 }, () => this.makeLoot());
         this.running = false;
         this.over = false;
@@ -183,7 +194,7 @@ class RoyaleGame {
         const overlay = document.getElementById('gameOverlay');
         overlay?.classList.remove('hidden');
         if (overlay) {
-            overlay.innerHTML = `<div class="max-w-md rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl"><p class="text-5xl">🪂</p><h2 class="mt-3 font-display text-3xl font-bold">اضغط تشغيل لعبتي</h2><p class="mt-2 text-sm leading-7 text-white/65">هذه لعبتي الخاصة: اجمع الصناديق اللامعة، اهرب من المنطقة، وأسقط البوتات قبل النهاية.</p></div>`;
+            overlay.innerHTML = `<div class="max-w-md rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl"><p class="text-5xl">🪂</p><h2 class="mt-3 font-display text-3xl font-bold">اضغط تشغيل فري فاير</h2><p class="mt-2 text-sm leading-7 text-white/65">اجمع اللوت، استخدم G للجلو وول، اهرب من الزون، وخذ البويا.</p></div>`;
         }
         this.draw();
     }
@@ -204,12 +215,18 @@ class RoyaleGame {
     }
 
     makeLoot() {
-        const kind = ['heal', 'armor', 'weapon'][Math.floor(Math.random() * 3)];
+        const kind = ['heal', 'armor', 'weapon', 'gloo'][Math.floor(Math.random() * 4)];
         return { x: 55 + Math.random() * 850, y: 55 + Math.random() * 510, r: 12, kind, pulse: Math.random() * Math.PI * 2 };
     }
 
     bindEvents() {
-        window.addEventListener('keydown', e => this.keys.add(e.key));
+        window.addEventListener('keydown', e => {
+            if ((e.key === 'g' || e.key === 'G') && !e.repeat) {
+                this.placeGlooWall(Date.now());
+                return;
+            }
+            this.keys.add(e.key);
+        });
         window.addEventListener('keyup', e => this.keys.delete(e.key));
         this.canvas.addEventListener('pointermove', e => {
             const rect = this.canvas.getBoundingClientRect();
@@ -221,6 +238,7 @@ class RoyaleGame {
         document.getElementById('startGame')?.addEventListener('click', () => this.start());
         document.getElementById('resetGame')?.addEventListener('click', () => this.reset());
         document.getElementById('touchFire')?.addEventListener('pointerdown', () => { this.touchFire = true; });
+        document.getElementById('touchGloo')?.addEventListener('pointerdown', () => this.placeGlooWall(Date.now()));
         document.querySelectorAll('.touch-control').forEach(button => {
             const key = button.dataset.key;
             button.addEventListener('pointerdown', () => this.keys.add(key));
@@ -233,7 +251,7 @@ class RoyaleGame {
         if (this.over) this.reset();
         this.running = true;
         document.getElementById('gameOverlay')?.classList.add('hidden');
-        this.status('لعبتي بدأت');
+        this.status('فري فاير بدأت — خذ البويا');
     }
 
     status(text) { document.getElementById('gameStatus').textContent = text; }
@@ -249,6 +267,7 @@ class RoyaleGame {
     update(dt, time) {
         this.movePlayer(dt);
         this.updateZone(dt);
+        this.updateGlooWalls(dt);
         this.handleLoot();
         if (this.pointer.down || this.touchFire) this.shoot(this.player, this.pointer.x, this.pointer.y, time, false);
         this.updateBots(dt, time);
@@ -275,6 +294,23 @@ class RoyaleGame {
         if (distance > this.zone.r) this.damagePlayer(8 * dt);
     }
 
+    placeGlooWall(time) {
+        if (!this.running || this.over || this.player.gloo <= 0 || time - this.lastGlooWall < 900) return;
+        const angle = Math.atan2(this.pointer.y - this.player.y, this.pointer.x - this.player.x);
+        const x = clamp(this.player.x + Math.cos(angle) * 64, 48, this.canvas.width - 48);
+        const y = clamp(this.player.y + Math.sin(angle) * 64, 48, this.canvas.height - 48);
+        this.glooWalls.push({ x, y, w: 96, h: 24, angle, hp: 180, life: 8 });
+        this.player.gloo -= 1;
+        this.lastGlooWall = time;
+        this.burst(x, y, '#dffaff', 16);
+        this.updateHud();
+    }
+
+    updateGlooWalls(dt) {
+        this.glooWalls.forEach(wall => { wall.life -= dt; });
+        this.glooWalls = this.glooWalls.filter(wall => wall.life > 0 && wall.hp > 0);
+    }
+
     damagePlayer(amount) {
         if (this.player.armor > 0) {
             const absorbed = Math.min(this.player.armor, amount * .65);
@@ -290,8 +326,9 @@ class RoyaleGame {
             if (Math.hypot(this.player.x - item.x, this.player.y - item.y) < this.player.r + item.r + 5) {
                 if (item.kind === 'heal') this.player.hp = Math.min(100, this.player.hp + 28);
                 if (item.kind === 'armor') this.player.armor = Math.min(100, this.player.armor + 35);
+                if (item.kind === 'gloo') this.player.gloo = Math.min(5, this.player.gloo + 1);
                 if (item.kind === 'weapon') app.selectedWeapon = weapons[Math.floor(Math.random() * weapons.length)];
-                this.burst(item.x, item.y, item.kind === 'heal' ? '#b7ff3c' : item.kind === 'armor' ? '#28f7ff' : '#ff7a18');
+                this.burst(item.x, item.y, item.kind === 'heal' ? '#b7ff3c' : item.kind === 'armor' ? '#28f7ff' : item.kind === 'gloo' ? '#dffaff' : '#ff7a18');
                 document.getElementById('weaponHud').textContent = app.selectedWeapon.name;
                 return false;
             }
@@ -344,6 +381,12 @@ class RoyaleGame {
         });
         this.bullets = this.bullets.filter(bullet => {
             if (bullet.life <= 0 || bullet.x < -20 || bullet.x > this.canvas.width + 20 || bullet.y < -20 || bullet.y > this.canvas.height + 20) return false;
+            const wall = this.glooWalls.find(item => pointInRotatedRect(bullet.x, bullet.y, item));
+            if (wall) {
+                wall.hp -= bullet.damage * 1.8;
+                this.burst(bullet.x, bullet.y, '#dffaff', 3);
+                return false;
+            }
             if (bullet.bot) {
                 if (Math.hypot(bullet.x - this.player.x, bullet.y - this.player.y) < this.player.r + bullet.r) {
                     this.damagePlayer(bullet.damage);
@@ -383,11 +426,11 @@ class RoyaleGame {
     end(won) {
         this.over = true;
         this.running = false;
-        this.status(won ? 'فزت بالمركز الأول!' : 'انتهت الجولة');
+        this.status(won ? 'BOOYAH! فزت بالمركز الأول' : 'انتهت الجولة');
         const overlay = document.getElementById('gameOverlay');
         overlay?.classList.remove('hidden');
         if (overlay) {
-            overlay.innerHTML = `<div class="max-w-md rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl"><p class="text-5xl">${won ? '🏆' : '💀'}</p><h2 class="mt-3 font-display text-3xl font-bold">${won ? 'بويا! أنت البطل' : 'حاول مرة ثانية'}</h2><p class="mt-2 text-sm leading-7 text-white/65">القتل: ${this.player.kills} — المتبقين: ${this.bots.length + 1}</p></div>`;
+            overlay.innerHTML = `<div class="max-w-md rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl"><p class="text-5xl">${won ? '🏆' : '💀'}</p><h2 class="mt-3 font-display text-3xl font-bold">${won ? 'BOOYAH! أنت البطل' : 'حاول مرة ثانية'}</h2><p class="mt-2 text-sm leading-7 text-white/65">القتل: ${this.player.kills} — المتبقين: ${this.bots.length + 1}</p></div>`;
         }
     }
 
@@ -395,6 +438,7 @@ class RoyaleGame {
         document.getElementById('healthHud').textContent = Math.max(0, Math.round(this.player.hp));
         document.getElementById('armorHud').textContent = Math.round(this.player.armor);
         document.getElementById('weaponHud').textContent = app.selectedWeapon.name;
+        document.getElementById('glooHud').textContent = this.player.gloo;
         document.getElementById('aliveHud').textContent = this.bots.length + 1;
         document.getElementById('killsHud').textContent = this.player.kills;
     }
@@ -405,6 +449,7 @@ class RoyaleGame {
         this.drawMap(ctx);
         this.drawZone(ctx);
         this.drawLoot(ctx);
+        this.drawGlooWalls(ctx);
         this.bots.forEach(bot => this.drawBot(ctx, bot));
         this.drawPlayer(ctx);
         this.drawBullets(ctx);
@@ -418,7 +463,7 @@ class RoyaleGame {
         ctx.lineWidth = 1;
         for (let x = 0; x < this.canvas.width; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, this.canvas.height); ctx.stroke(); }
         for (let y = 0; y < this.canvas.height; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(this.canvas.width, y); ctx.stroke(); }
-        const buildings = [[90,80,120,70], [735,95,130,90], [190,430,180,80], [615,385,145,125], [430,145,105,92]];
+        const buildings = [[90,80,120,70], [735,95,130,90], [190,430,180,80], [615,385,145,125], [430,145,105,92], [42,275,88,105], [795,430,96,70]];
         buildings.forEach(([x, y, w, h], i) => {
             ctx.fillStyle = i % 2 ? 'rgba(255,122,24,.10)' : 'rgba(40,247,255,.10)';
             roundRect(ctx, x, y, w, h, 18, true, false);
@@ -449,7 +494,7 @@ class RoyaleGame {
     drawLoot(ctx) {
         this.loot.forEach(item => {
             item.pulse += .05;
-            const color = item.kind === 'heal' ? '#b7ff3c' : item.kind === 'armor' ? '#28f7ff' : '#ff7a18';
+            const color = item.kind === 'heal' ? '#b7ff3c' : item.kind === 'armor' ? '#28f7ff' : item.kind === 'gloo' ? '#dffaff' : '#ff7a18';
             ctx.save();
             ctx.translate(item.x, item.y);
             ctx.rotate(item.pulse);
@@ -457,6 +502,29 @@ class RoyaleGame {
             ctx.shadowColor = color;
             ctx.shadowBlur = 14;
             roundRect(ctx, -item.r, -item.r, item.r * 2, item.r * 2, 5, true, false);
+            if (item.kind === 'gloo') {
+                ctx.fillStyle = '#061019';
+                ctx.font = '12px sans-serif';
+                ctx.fillText('G', -4, 4);
+            }
+            ctx.restore();
+        });
+    }
+
+    drawGlooWalls(ctx) {
+        this.glooWalls.forEach(wall => {
+            const ratio = clamp(wall.hp / 180, 0, 1);
+            ctx.save();
+            ctx.translate(wall.x, wall.y);
+            ctx.rotate(wall.angle);
+            ctx.globalAlpha = clamp(wall.life / 8, .25, 1);
+            ctx.fillStyle = `rgba(223, 250, 255, ${.28 + ratio * .42})`;
+            ctx.strokeStyle = '#dffaff';
+            ctx.shadowColor = '#dffaff';
+            ctx.shadowBlur = 22;
+            roundRect(ctx, -wall.w / 2, -wall.h / 2, wall.w, wall.h, 10, true, true);
+            ctx.fillStyle = 'rgba(40,247,255,.45)';
+            roundRect(ctx, -wall.w / 2, wall.h / 2 + 6, wall.w * ratio, 5, 3, true, false);
             ctx.restore();
         });
     }
@@ -527,6 +595,16 @@ class RoyaleGame {
 }
 
 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+
+function pointInRotatedRect(px, py, rect) {
+    const cos = Math.cos(-rect.angle);
+    const sin = Math.sin(-rect.angle);
+    const dx = px - rect.x;
+    const dy = py - rect.y;
+    const localX = dx * cos - dy * sin;
+    const localY = dx * sin + dy * cos;
+    return Math.abs(localX) <= rect.w / 2 && Math.abs(localY) <= rect.h / 2;
+}
 
 function roundRect(ctx, x, y, w, h, r, fill, stroke) {
     const radius = Math.min(r, Math.abs(w) / 2, Math.abs(h) / 2);
