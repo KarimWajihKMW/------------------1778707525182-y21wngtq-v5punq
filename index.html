@@ -3,34 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مرحباً بك في أكوادرا</title>
+    <title>نيون سكواد: باتل رويال عربية</title>
+    <meta name="description" content="لعبة باتل رويال عربية تفاعلية داخل المتصفح مع خريطة نيون، أسلحة، بوتات، منطقة آمنة وترتيب لاعبين.">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Cairo', sans-serif;
-      }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@500;600;700;800&family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Changa', 'sans-serif'],
+                        body: ['Readex Pro', 'sans-serif']
+                    },
+                    colors: {
+                        night: '#050711',
+                        ember: '#ff7a18',
+                        neon: '#28f7ff',
+                        acid: '#b7ff3c',
+                        royal: '#7c3cff'
+                    },
+                    boxShadow: {
+                        neon: '0 0 38px rgba(40, 247, 255, .26)',
+                        ember: '0 0 34px rgba(255, 122, 24, .28)'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen text-gray-800">
-    <div class="max-w-md w-full text-center p-6">
-        <h1 class="text-3xl font-bold text-slate-800 mb-4 tracking-tight">مرحباً بك في أكوادرا</h1>
-        <p class="text-gray-600 mb-8">
-            المنشئ الخارق الذي يساعدك على بناء تطبيقات جميلة باستخدام Tailwind CSS.
-        </p>
-        
-        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:scale-105 transition-all duration-300 cursor-pointer card group">
-            <div class="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-indigo-100 transition-colors">
-                 <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+<body class="min-h-screen bg-night text-white font-body overflow-x-hidden selection:bg-ember selection:text-night">
+    <div class="fixed inset-0 -z-20 bg-[radial-gradient(circle_at_15%_12%,rgba(255,122,24,.28),transparent_27%),radial-gradient(circle_at_85%_20%,rgba(40,247,255,.24),transparent_29%),linear-gradient(135deg,#050711_0%,#0c1024_46%,#120814_100%)]"></div>
+    <div class="fixed inset-0 -z-10 city-grid opacity-70"></div>
+    <div class="fixed inset-0 -z-10 smoke-layer"></div>
+
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-night/75 backdrop-blur-2xl">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8" aria-label="التنقل الرئيسي">
+            <a href="/" data-route class="group flex items-center gap-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-neon focus:ring-offset-2 focus:ring-offset-night">
+                <span class="relative grid h-12 w-12 place-items-center overflow-hidden rounded-2xl border border-neon/30 bg-white/10 shadow-neon transition duration-300 group-hover:scale-105">
+                    <span class="absolute inset-0 bg-gradient-to-br from-neon/30 via-transparent to-ember/40"></span>
+                    <span class="relative text-2xl">⚡</span>
+                </span>
+                <span>
+                    <span class="block font-display text-xl font-extrabold tracking-tight">نيون سكواد</span>
+                    <span class="block text-xs text-white/50">Battle Arena v1</span>
+                </span>
+            </a>
+
+            <button id="menuToggle" class="rounded-xl border border-white/10 bg-white/5 p-3 text-white transition hover:border-neon/60 hover:bg-neon/10 focus:outline-none focus:ring-2 focus:ring-neon md:hidden" aria-label="فتح القائمة">
+                <span class="block h-0.5 w-6 bg-white"></span>
+                <span class="mt-1.5 block h-0.5 w-6 bg-white"></span>
+                <span class="mt-1.5 block h-0.5 w-6 bg-white"></span>
+            </button>
+
+            <div id="navLinks" class="absolute left-4 right-4 top-20 hidden flex-col gap-2 rounded-3xl border border-white/10 bg-[#080b18]/95 p-4 shadow-2xl backdrop-blur-xl md:static md:flex md:flex-row md:items-center md:bg-transparent md:p-0 md:shadow-none">
+                <a href="/" data-route class="nav-link">الرئيسية</a>
+                <a href="/play" data-route class="nav-link">العب الآن</a>
+                <a href="/play/loadout" data-route class="nav-link">العتاد</a>
+                <a href="/rankings/season" data-route class="nav-link">الترتيب</a>
+                <a href="/about" data-route class="nav-link">القصة</a>
+                <a href="/contact" data-route class="nav-link">انضمام</a>
             </div>
-            <h2 class="text-xl font-semibold text-gray-900 mb-2">جاهز للبناء</h2>
-            <p class="text-gray-500 text-sm">اطلب من الذكاء الاصطناعي تغيير هذا التصميم أو بناء شيء جديد كلياً.</p>
+        </nav>
+    </header>
+
+    <main>
+        <section data-page="home" class="page-section">
+            <div class="mx-auto grid min-h-[calc(100vh-82px)] max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.02fr_.98fr] lg:px-8 lg:py-20">
+                <div class="reveal space-y-8">
+                    <div class="inline-flex items-center gap-3 rounded-full border border-ember/30 bg-ember/10 px-4 py-2 text-sm text-amber-100 shadow-ember">
+                        <span class="h-2 w-2 animate-pulse rounded-full bg-acid"></span>
+                        لعبة باتل رويال خفيفة تعمل مباشرة في المتصفح
+                    </div>
+                    <div class="space-y-5">
+                        <h1 class="font-display text-5xl font-extrabold leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
+                            انزل من الطائرة، اجمع السلاح، وكن آخر لاعب في <span class="text-gradient">مدينة النيون</span>
+                        </h1>
+                        <p class="max-w-2xl text-lg leading-9 text-white/68">
+                            تجربة عربية مستوحاة من ألعاب الباتل رويال: خريطة تتقلص، بوتات ذكية، ذخيرة، صناديق عتاد، رصاص سريع وترتيب موسم. ليست نسخة من أي لعبة تجارية؛ هذه تجربة أصلية مصغّرة وممتعة.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-3 sm:flex-row">
+                        <a href="/play" data-route class="primary-btn">ابدأ المعركة</a>
+                        <a href="/play/loadout" data-route class="secondary-btn">جهّز السلاح</a>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 pt-3">
+                        <div class="stat-card"><strong>24</strong><span>لاعب افتراضي</span></div>
+                        <div class="stat-card"><strong>4</strong><span>أسلحة</span></div>
+                        <div class="stat-card"><strong>1</strong><span>فائز فقط</span></div>
+                    </div>
+                </div>
+
+                <div class="reveal delay-150 relative">
+                    <div class="absolute -inset-8 rounded-[3rem] bg-gradient-to-tr from-neon/20 via-royal/10 to-ember/20 blur-3xl"></div>
+                    <div class="relative overflow-hidden rounded-[2.2rem] border border-white/12 bg-white/[.06] p-4 shadow-2xl backdrop-blur-xl">
+                        <div class="battle-card min-h-[520px] rounded-[1.7rem] p-5">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs uppercase tracking-[.35em] text-neon">Drop Zone</p>
+                                    <h2 class="font-display text-3xl font-bold">برج اللهب</h2>
+                                </div>
+                                <div class="rounded-2xl border border-acid/30 bg-acid/10 px-4 py-2 text-sm text-acid">SAFE 78%</div>
+                            </div>
+                            <div class="relative mt-8 h-80 overflow-hidden rounded-[1.4rem] border border-white/10 bg-[#09101e]">
+                                <div class="absolute inset-0 map-lines"></div>
+                                <div class="drop-ship">🚀</div>
+                                <div class="zone-ring"></div>
+                                <div class="absolute bottom-8 right-10 rounded-2xl border border-neon/30 bg-neon/10 p-3 shadow-neon">
+                                    <div class="h-10 w-10 rounded-xl bg-neon/30"></div>
+                                </div>
+                                <div class="absolute left-12 top-16 rounded-2xl border border-ember/30 bg-ember/10 p-3 shadow-ember">
+                                    <div class="h-8 w-8 rounded-full bg-ember/40"></div>
+                                </div>
+                                <div class="avatar-token right-[42%] top-[47%]">أنت</div>
+                                <div class="enemy-token left-[20%] top-[32%]"></div>
+                                <div class="enemy-token left-[70%] top-[62%]"></div>
+                                <div class="enemy-token left-[55%] top-[20%]"></div>
+                            </div>
+                            <div class="mt-5 grid gap-3 sm:grid-cols-3">
+                                <div class="mini-panel"><span>السلاح</span><strong>Nova AR</strong></div>
+                                <div class="mini-panel"><span>درع</span><strong>Lv.2</strong></div>
+                                <div class="mini-panel"><span>الهدف</span><strong>Top 1</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section data-page="play" class="page-section hidden">
+            <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+                <div class="mb-8 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+                    <div class="reveal">
+                        <p class="section-kicker">/play</p>
+                        <h1 class="font-display text-4xl font-extrabold sm:text-5xl">ساحة القتال المباشر</h1>
+                        <p class="mt-3 max-w-3xl leading-8 text-white/65">تحكم باللاعب عبر WASD أو الأسهم، صوب بالماوس أو اللمس، واجمع الصناديق قبل أن تبتلعك المنطقة الحمراء.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <button id="startGame" class="primary-btn">تشغيل الجولة</button>
+                        <button id="resetGame" class="secondary-btn">إعادة ضبط</button>
+                    </div>
+                </div>
+
+                <div class="grid gap-6 lg:grid-cols-[1fr_340px]">
+                    <div class="game-shell reveal">
+                        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 p-4">
+                            <div class="flex flex-wrap gap-2 text-sm">
+                                <span class="hud-pill">❤️ الصحة: <b id="healthHud">100</b></span>
+                                <span class="hud-pill">🛡️ الدرع: <b id="armorHud">0</b></span>
+                                <span class="hud-pill">🔫 السلاح: <b id="weaponHud">Nova AR</b></span>
+                                <span class="hud-pill">👥 المتبقين: <b id="aliveHud">24</b></span>
+                                <span class="hud-pill">🏆 قتل: <b id="killsHud">0</b></span>
+                            </div>
+                            <div id="gameStatus" class="rounded-full border border-acid/30 bg-acid/10 px-4 py-2 text-sm text-acid">جاهز للنزول</div>
+                        </div>
+                        <div class="relative overflow-hidden rounded-b-[1.7rem] bg-[#070a12]">
+                            <canvas id="gameCanvas" width="960" height="620" class="block h-auto w-full cursor-crosshair"></canvas>
+                            <div id="gameOverlay" class="pointer-events-none absolute inset-0 grid place-items-center bg-night/40 backdrop-blur-[2px]">
+                                <div class="max-w-md rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl">
+                                    <p class="text-5xl">🪂</p>
+                                    <h2 class="mt-3 font-display text-3xl font-bold">اضغط تشغيل الجولة</h2>
+                                    <p class="mt-2 text-sm leading-7 text-white/65">اجمع الصناديق اللامعة، اهرب من المنطقة، وأسقط البوتات قبل النهاية.</p>
+                                </div>
+                            </div>
+                            <div class="pointer-events-none absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3 md:hidden">
+                                <div class="grid grid-cols-3 gap-2 rounded-2xl border border-white/10 bg-night/55 p-2 backdrop-blur-xl pointer-events-auto">
+                                    <span></span><button class="touch-control" data-key="ArrowUp">▲</button><span></span>
+                                    <button class="touch-control" data-key="ArrowRight">▶</button><button class="touch-control" data-key="ArrowDown">▼</button><button class="touch-control" data-key="ArrowLeft">◀</button>
+                                </div>
+                                <button id="touchFire" class="pointer-events-auto h-20 w-20 rounded-full border border-ember/50 bg-ember/25 text-2xl shadow-ember backdrop-blur-xl active:scale-95">🔥</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <aside class="space-y-5 reveal delay-150">
+                        <div class="panel-card">
+                            <p class="section-kicker">مهام الجولة</p>
+                            <div class="mt-4 space-y-3">
+                                <div class="mission"><span>01</span><p>اجمع صندوق عتاد واحد</p></div>
+                                <div class="mission"><span>02</span><p>اهزم 3 خصوم</p></div>
+                                <div class="mission"><span>03</span><p>ابق داخل المنطقة الآمنة</p></div>
+                            </div>
+                        </div>
+                        <div class="panel-card">
+                            <p class="section-kicker">طريقة اللعب</p>
+                            <ul class="mt-4 space-y-3 text-sm leading-7 text-white/70">
+                                <li>• التحرك: WASD أو الأسهم.</li>
+                                <li>• إطلاق النار: الماوس / اللمس / زر النار.</li>
+                                <li>• الصناديق تعطي صحة، درع أو سلاح أقوى.</li>
+                                <li>• الدائرة الزرقاء هي المنطقة الآمنة، خارجها ضرر تدريجي.</li>
+                            </ul>
+                        </div>
+                        <div class="panel-card bg-gradient-to-br from-ember/15 to-neon/10">
+                            <p class="text-sm text-white/60">معلومة</p>
+                            <h3 class="mt-2 font-display text-2xl font-bold">كل جولة مختلفة</h3>
+                            <p class="mt-2 text-sm leading-7 text-white/65">البوتات والصناديق تظهر في أماكن عشوائية مع منطقة آمنة تتقلص تدريجياً.</p>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section data-page="loadout" class="page-section hidden">
+            <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+                <div class="reveal mb-10 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+                    <div>
+                        <p class="section-kicker">/play/loadout</p>
+                        <h1 class="font-display text-4xl font-extrabold sm:text-5xl">مخزن العتاد</h1>
+                        <p class="mt-3 max-w-2xl leading-8 text-white/65">اختر أسلوبك قبل النزول: رشاش سريع، قناص بعيد، أو شوتغن للحسم القريب.</p>
+                    </div>
+                    <a href="/play" data-route class="primary-btn">ادخل الساحة</a>
+                </div>
+                <div id="weaponGrid" class="grid gap-5 md:grid-cols-2 xl:grid-cols-4"></div>
+            </div>
+        </section>
+
+        <section data-page="rankings" class="page-section hidden">
+            <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+                <div class="reveal mb-8">
+                    <p class="section-kicker">/rankings/season</p>
+                    <h1 class="font-display text-4xl font-extrabold sm:text-5xl">ترتيب الموسم</h1>
+                    <p class="mt-3 max-w-2xl leading-8 text-white/65">قائمة لاعبين بفرز وتصفية وبحث؛ مصممة لتكون جاهزة للتوسعة مع حسابات حقيقية لاحقاً.</p>
+                </div>
+                <div class="panel-card reveal">
+                    <div class="grid gap-3 md:grid-cols-[1fr_180px_180px]">
+                        <input id="rankSearch" type="search" placeholder="ابحث عن لاعب..." class="field">
+                        <select id="rankTier" class="field">
+                            <option value="all">كل الرتب</option>
+                            <option value="أسطوري">أسطوري</option>
+                            <option value="ماسي">ماسي</option>
+                            <option value="ذهبي">ذهبي</option>
+                        </select>
+                        <select id="rankSort" class="field">
+                            <option value="points">الأعلى نقاطاً</option>
+                            <option value="wins">الأكثر فوزاً</option>
+                            <option value="kills">الأكثر قتلاً</option>
+                        </select>
+                    </div>
+                    <div class="mt-5 overflow-x-auto rounded-2xl border border-white/10">
+                        <table class="w-full min-w-[760px] text-right text-sm">
+                            <thead class="bg-white/10 text-white/70">
+                                <tr>
+                                    <th class="p-4">#</th><th class="p-4">اللاعب</th><th class="p-4">الرتبة</th><th class="p-4">النقاط</th><th class="p-4">الفوز</th><th class="p-4">القتل</th><th class="p-4">إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rankBody" class="divide-y divide-white/10"></tbody>
+                        </table>
+                    </div>
+                    <div class="mt-5 flex flex-col items-center justify-between gap-3 sm:flex-row">
+                        <p id="rankPageInfo" class="text-sm text-white/55"></p>
+                        <div class="flex gap-2">
+                            <button id="prevRank" class="secondary-btn !px-4 !py-2">السابق</button>
+                            <button id="nextRank" class="secondary-btn !px-4 !py-2">التالي</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section data-page="about" class="page-section hidden">
+            <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+                <div class="grid gap-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center">
+                    <div class="reveal panel-card">
+                        <p class="section-kicker">/about</p>
+                        <h1 class="font-display text-4xl font-extrabold">قصة مدينة النيون</h1>
+                        <p class="mt-5 leading-9 text-white/68">بعد عاصفة مغناطيسية، تحولت المدينة إلى ساحة عالية التقنية. كل لاعب يهبط بطائرة صغيرة ويقاتل ليعيد تشغيل القلب الكهربائي للمدينة.</p>
+                    </div>
+                    <div class="reveal delay-150 grid gap-4 sm:grid-cols-2">
+                        <div class="feature-card"><span>🛡️</span><h3>منطقة آمنة</h3><p>دائرة متقلصة تجبر المواجهة وتمنع الاختباء الطويل.</p></div>
+                        <div class="feature-card"><span>🎯</span><h3>ذكاء بوتات</h3><p>خصوم يلاحقونك ويطلقون النار ضمن مدى محدد.</p></div>
+                        <div class="feature-card"><span>📦</span><h3>صناديق عتاد</h3><p>صحة، درع، سرعة نار، وأسلحة مختلفة.</p></div>
+                        <div class="feature-card"><span>🏆</span><h3>موسم وترتيب</h3><p>تصميم جاهز لدوري مصغر ومكافآت يومية.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section data-page="contact" class="page-section hidden">
+            <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
+                <div class="reveal panel-card overflow-hidden">
+                    <div class="grid gap-8 lg:grid-cols-[.9fr_1.1fr]">
+                        <div>
+                            <p class="section-kicker">/contact</p>
+                            <h1 class="font-display text-4xl font-extrabold">انضم إلى السكواد</h1>
+                            <p class="mt-4 leading-8 text-white/65">أرسل اسمك ونمط لعبك المفضل لنضيفك ضمن قائمة اللاعبين التجريبية.</p>
+                        </div>
+                        <form id="joinForm" class="grid gap-4">
+                            <input class="field" required name="name" placeholder="اسم اللاعب">
+                            <input class="field" required name="email" type="email" placeholder="البريد الإلكتروني">
+                            <select class="field" name="style">
+                                <option>هجومي سريع</option>
+                                <option>قناص هادئ</option>
+                                <option>داعم للفريق</option>
+                            </select>
+                            <textarea class="field min-h-32" name="message" placeholder="ما الميزة التي تريدها في اللعبة؟"></textarea>
+                            <button class="primary-btn justify-center" type="submit">إرسال الطلب</button>
+                            <p id="formMessage" class="text-sm text-acid"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-white/10 bg-black/20 py-8">
+        <div class="mx-auto flex max-w-7xl flex-col justify-between gap-4 px-4 text-sm text-white/50 sm:px-6 md:flex-row lg:px-8">
+            <p>© 2026 نيون سكواد — لعبة عربية أصلية داخل المتصفح.</p>
+            <div class="flex gap-4">
+                <a href="/about" data-route class="hover:text-neon focus:text-neon focus:outline-none">القصة</a>
+                <a href="/rankings/season" data-route class="hover:text-neon focus:text-neon focus:outline-none">الترتيب</a>
+                <a href="/contact" data-route class="hover:text-neon focus:text-neon focus:outline-none">انضمام</a>
+            </div>
         </div>
-        
-        <div class="mt-8 text-sm text-gray-400">
-            مدعوم بواسطة Gemini 3 Pro
-        </div>
-    </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
