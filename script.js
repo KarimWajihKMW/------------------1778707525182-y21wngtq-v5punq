@@ -183,7 +183,7 @@ class RoyaleGame {
         const overlay = document.getElementById('gameOverlay');
         overlay?.classList.remove('hidden');
         if (overlay) {
-            overlay.innerHTML = `<div class="max-w-md rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl"><p class="text-5xl">🪂</p><h2 class="mt-3 font-display text-3xl font-bold">اضغط تشغيل الجولة</h2><p class="mt-2 text-sm leading-7 text-white/65">اجمع الصناديق اللامعة، اهرب من المنطقة، وأسقط البوتات قبل النهاية.</p></div>`;
+            overlay.innerHTML = `<div class="max-w-md rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl"><p class="text-5xl">🪂</p><h2 class="mt-3 font-display text-3xl font-bold">اضغط تشغيل لعبتي</h2><p class="mt-2 text-sm leading-7 text-white/65">هذه لعبتي الخاصة: اجمع الصناديق اللامعة، اهرب من المنطقة، وأسقط البوتات قبل النهاية.</p></div>`;
         }
         this.draw();
     }
@@ -233,7 +233,7 @@ class RoyaleGame {
         if (this.over) this.reset();
         this.running = true;
         document.getElementById('gameOverlay')?.classList.add('hidden');
-        this.status('المعركة بدأت');
+        this.status('لعبتي بدأت');
     }
 
     status(text) { document.getElementById('gameStatus').textContent = text; }
